@@ -70,45 +70,45 @@ $this->assertTrue(Phaser\occurredChronologically([
 
 ## Phaser API
 
-The following functions are used to create spy instances:
+The following functions are available in the `Phaser\` namespace and used to create spy instances:
 
-### `Phaser\createAnonymousSpy(array $methodNameToResponderMap = [])`
+### `createAnonymousSpy(array $methodNameToResponderMap = [])`
 
 Creates an anonymous spy instance with optional method stubs. All unstubbed method invocations will return null.
 
 ---
 
-### `Phaser\createSpyInstanceOf($type, array $methodNameToResponderMap = [])`
+### `createSpyInstanceOf($type, array $methodNameToResponderMap = [])`
 
 Creates a spy instance of the given `$type` (class or interface) with optional method stubs. All unstubbed method invoctions will return null.
 
 ---
 
-### `Phaser\occurredChronologically(...$sequenceOfMatchedInvocationRecordLists)`
+### `occurredChronologically(...$sequenceOfMatchedInvocationRecordLists)`
 
 Accepts any given number of invocation sets queried from a given spy reflector (see [Spy Reflector API](#spyreflector-api) below) and returns true if one invocation from each of the given sets can be pulled into a new set such that this new set contains invocations that occurred in chronological order.
 
 ---
 
-### `Phaser\returnsStaticValue($staticValueToReturn)`
+### `returnsStaticValue($staticValueToReturn)`
 
 Returns a method stub invocation handler that always returns the given static value, as it is given to this function.
 
 ---
 
-### `Phaser\returnsInSequence(...$sequenceOfValuesToReturn)`
+### `returnsInSequence(...$sequenceOfValuesToReturn)`
 
 Returns a method stub invocation handler which will return the given sequence of values in sequential invocations.  The first argument corresponds to the desired return value for the first invocation, the second argument for the second invocation, etc.  Once the sequence has been used up, `null` will be returned for all subsequent calls.  Note that functions given as arguments to this function will be returned as raw functions during method invocations (they will not be invoked to generate the return value)...see `Phaser\valueReturnedBy` below to wrap functions which should be invoked rather than returned as raw values.
 
 ---
 
-### `Phaser\valueReturnedBy($callable)`
+### `valueReturnedBy($callable)`
 
 Used when passing functions to `Phaser\returnsInSequence` function to denote functions that should not be returned as raw values, but rather invoked to _calculate_ the return value of the invocation.
 
 ---
 
-### `Phaser\throwsException(Exception $exception)`
+### `throwsException(Exception $exception)`
 
 Returns a method stub invocation handler that throws the given exception when invoked.
 
