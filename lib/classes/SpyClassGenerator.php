@@ -121,9 +121,10 @@ class SpyClassGenerator
         $methodSignatureParameters = [];
         $methodParameterNames = [];
         foreach ($method->getParameters() as $parameter) {
-            $methodParamType = $parameter->hasType()
-                    ? "\\{$parameter->getType()}"
-                    : '';
+            $methodParamType = '';
+            if ($parameter->hasType()) {
+                $methodParamType = ((string) $parameter->getType() === 'array' ? 'array' : "\\{$parameter->getType()}");
+            }
             $methodParamName = "\${$parameter->getName()}";
             $methodParamDefaultValueString = $parameter->isDefaultValueAvailable()
                 ? '= '.self::getMethodSignatureDefaultArgumentInProperFormat($parameter->getDefaultValue())
