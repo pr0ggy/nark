@@ -122,7 +122,7 @@ class SpyClassGenerator
             // spy class already has a constructor defined...ignore the constructor of the class we want to spy on
             return;
         }
-        
+
         $methodSignatureParameters = [];
         $methodParameterNames = [];
         foreach ($method->getParameters() as $parameter) {
@@ -141,9 +141,9 @@ class SpyClassGenerator
 
         $methodSignatureParametersString = implode(', ', $methodSignatureParameters);
         $methodParameterNamesString = implode(', ', $methodParameterNames);
+        $methodType = ($method->isStatic() ? 'static function' : 'function');
 
-        // return "    public function {$methodName}({$methodSignatureParametersString}) { return \$this->__call('{$methodName}', [{$methodParameterNamesString}]); }";
-        return "    public function {$methodName}({$methodSignatureParametersString}) { return \$this->__call('{$methodName}', func_get_args()); }";
+        return "    public {$methodType} {$methodName}({$methodSignatureParametersString}) { return \$this->__call('{$methodName}', func_get_args()); }";
     }
 
     /**
@@ -161,6 +161,8 @@ class SpyClassGenerator
         if (is_numeric($rawDefaultArgument) || $defaultArgumentIsConstant) {
             // use the raw argument format if the argument is numeric or a defined constant
             return "{$rawDefaultArgument}";
+        } elseif (is_array($rawDefaultArgument)) {
+            return '['.implode(', ', $rawDefaultArgument).']';
         } elseif ($defaultArgumentIsLiteral) {
             // for literals, have to explicitly convert to string
             if (is_null($rawDefaultArgument)) {
