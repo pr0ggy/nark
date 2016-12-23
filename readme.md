@@ -3,7 +3,7 @@ Phaser is a lightweight spying/stubbing library for PHP >= 5.6 designed for use 
 
 ## Installation
 
-    composer require --dev pr0ggy/phaser @alpha
+    composer require --dev pr0ggy/phaser
 
 ## Usage
 ### Creating Anonymous Spies
