@@ -118,6 +118,11 @@ class SpyClassGenerator
     private static function getReflectedMethodAsSpyClassCode(ReflectionMethod $method)
     {
         $methodName = $method->getName();
+        if ($methodName === '__construct') {
+            // spy class already has a constructor defined...ignore the constructor of the class we want to spy on
+            return;
+        }
+        
         $methodSignatureParameters = [];
         $methodParameterNames = [];
         foreach ($method->getParameters() as $parameter) {
