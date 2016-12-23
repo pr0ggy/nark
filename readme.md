@@ -87,7 +87,7 @@ Creates a spy instance of the given `$type` (class or interface) with optional m
 
 ### `occurredChronologically(...$sequenceOfMatchedInvocationRecordLists)`
 
-Accepts any given number of invocation sets queried from a given spy reflector (see [Spy Reflector API](#spyreflector-api) below) and returns true if one invocation from each of the given sets can be pulled into a new set such that this new set contains invocations that occurred in chronological order.
+Accepts any given number of invocation lists queried from a given spy reflector (see [Spy Reflector API](#spyreflector-api) below) and returns true if one invocation from each of the given lists can be pulled into a new list such that this new list contains invocations that occurred in chronological order.
 
 ---
 
@@ -106,6 +106,14 @@ Returns a method stub invocation handler which will return the given sequence of
 ### `valueReturnedBy($callable)`
 
 Used when passing functions to `Phaser\returnsInSequence` function to denote functions that should not be returned as raw values, but rather invoked to _calculate_ the return value of the invocation.
+```php
+$spy = Phaser\createAnonymousSpy([
+    'doBar' => Phaser\returnsInSequence(
+        function () { return 'foo'; },                         // the raw function will be returned on 1st invocation
+        Phaser\valueReturnedBy(function () { return 'foo'; })  // 'foo' will be returned on 2nd invocation
+    )
+]);
+```
 
 ---
 
