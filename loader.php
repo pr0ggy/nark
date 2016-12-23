@@ -1,5 +1,7 @@
 <?php
 
+namespace Phaser;
+
 define('PHASER_LIB', dirname(__FILE__).'/lib');
 
 function requireModules(array $modulePaths) {
