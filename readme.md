@@ -125,7 +125,7 @@ Returns a spy object's `SpyReflector` instance, which can be used to query for i
 ---
 
 ## SpyReflector API
-A `SpyReflector` instance doesn't have any concrete methods of its own.  Instead, it uses PHP magic methods to allow the user to invoke methods on the reflector as if they were being invoked on the spy itself. Doing so returns a set of recorded invocations made on the spy instance which match the call made to the reflector instance.  See the code examples above for a concrete example.
+A `SpyReflector` instance doesn't have any concrete methods of its own.  Instead, it uses PHP magic methods to allow the user to invoke methods on the reflector as if they were being invoked on the spy itself. Doing so returns a set of recorded invocations made on the spy instance which match the call made to the reflector instance.  See [the code examples above](#querying-spies) for a concrete example.
 
 ---
 
