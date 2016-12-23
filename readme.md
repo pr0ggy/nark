@@ -2,7 +2,8 @@
 Phaser is a lightweight spying/stubbing library for PHP >= 5.6 designed for use with PHPUnit or any other testing framework.  Its aim is to do one thing succinctly: provide a way of creating test double objects which can provide preprogrammed behavior and then report on how they were utilized.  Phaser strives for simplicity and practicality in the average use case rather than providing a massive interface and feature set for covering every possible scenario.
 
 ## Installation
-    composer require --dev pr0ggy/phaser
+
+    composer require --dev pr0ggy/phaser @alpha
 
 ## Usage
 ### Creating Anonymous Spies
