@@ -17,7 +17,8 @@
             "Phaser\\": "./lib/classes"
         },
         "files": [
-            "./loader.php"
+            "lib/interface.php",
+            "lib/phaser.func.php"
         ]
     },
     "autoload-dev": {
