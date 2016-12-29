@@ -206,7 +206,7 @@ function throwsException(Exception $exception) {
  *     ]);
  *
  * @param  mixed $callable the callable to wrap
- * @return Util\WrappedCallable the given callable wrapped in a callable class for distinguishing
+ * @return WrappedCallable the given callable wrapped in a callable class for distinguishing
  *                              it from standard functions, etc.
  *
  * @throws \InvalidArgumentException if the given argument is not callable
