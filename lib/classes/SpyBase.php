@@ -1,6 +1,6 @@
 <?php
 
-namespace Phaser;
+namespace Nark;
 
 /**
  * Represents a spy object created by the library.  For anonymous spy objects, this class is directly
@@ -8,7 +8,7 @@ namespace Phaser;
  * class or interface.  For spies that have to masquerade as instances of a specific type, we'll have
  * to dynamically muck with this definition a bit, which is why this class exists in its own file.
  *
- * @package Phaser
+ * @package Nark
  */
 final class SpyBase
 {

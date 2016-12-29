@@ -1,5 +1,5 @@
 {
-    "name": "pr0ggy/phaser",
+    "name": "pr0ggy/nark",
     "description": "A spying/stubbing library for PHP",
     "type": "library",
     "keywords": ["php", "unit", "testing", "stub", "stubbing", "spy", "spying", "library"],
@@ -14,17 +14,17 @@
     },
     "autoload": {
         "psr-4" : {
-            "Phaser\\": "./lib/classes"
+            "Nark\\": "./lib/classes"
         },
         "files": [
             "lib/interface.php",
-            "lib/phaser.func.php"
+            "lib/func.php"
         ]
     },
     "autoload-dev": {
         "psr-4" : {
-            "Phaser\\": "./test",
-            "Phaser\\Fixtures\\": "./test/fixtures"
+            "Nark\\": "./test",
+            "Nark\\Fixtures\\": "./test/fixtures"
         }
     }
 }

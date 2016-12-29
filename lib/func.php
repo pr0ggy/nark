@@ -1,6 +1,6 @@
 <?php
 
-namespace Phaser;
+namespace Nark;
 
 use Equip\Structure\Dictionary;
 use Equip\Structure\UnorderedList;
@@ -43,7 +43,7 @@ function invocationsMatch(Dictionary $invocationA, Dictionary $invocationB) {
     }
 
     /*
-     * Phaser supports Hamcrest matchers, so we have to compare each individual argument to see if
+     * Nark supports Hamcrest matchers, so we have to compare each individual argument to see if
      * a matcher instance was given.  if so, we need to check for argument match using the matcher
      * interface.  otherwise, we can just check raw equality.
      */

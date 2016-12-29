@@ -1,6 +1,6 @@
 <?php
 
-namespace Phaser;
+namespace Nark;
 
 use Equip\Structure\UnorderedList;
 use InvalidArgumentException;
@@ -10,8 +10,8 @@ use ReflectionMethod;
 /**
  * Generates code for a spy double extending a given class or implementing a given interface
  *
- * @package Phaser
- * @see \Phaser\SpyBase
+ * @package Nark
+ * @see \Nark\SpyBase
  */
 class SpyClassGenerator
 {
@@ -32,9 +32,9 @@ class SpyClassGenerator
      */
     public static function generateSpyClassRepresenting($type)
     {
-        $spyClassName = str_replace('\\', '_', $type).'_PhaserSpy';
+        $spyClassName = str_replace('\\', '_', $type).'_NarkSpy';
         if (in_array($spyClassName, self::$loadedSpyClasses)) {
-            return "\\Phaser\\{$spyClassName}";
+            return "\\Nark\\{$spyClassName}";
         }
 
         if (class_exists($type)) {
@@ -49,7 +49,7 @@ class SpyClassGenerator
         eval($spyClassCode);
         self::$loadedSpyClasses[] = $spyClassName;
 
-        return "\\Phaser\\{$spyClassName}";
+        return "\\Nark\\{$spyClassName}";
     }
 
     /**

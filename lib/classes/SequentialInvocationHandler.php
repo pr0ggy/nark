@@ -1,6 +1,6 @@
 <?php
 
-namespace Phaser;
+namespace Nark;
 
 use Equip\Structure\UnorderedList;
 
@@ -9,7 +9,7 @@ use Equip\Structure\UnorderedList;
  * sequential invocations according to a given sequence of returnables. If more invocations are made
  * than exist given returnables, a static value will be returned for all subsequent invocations.
  *
- * @package Phaser
+ * @package Nark
  */
 class SequentialInvocationHandler
 {

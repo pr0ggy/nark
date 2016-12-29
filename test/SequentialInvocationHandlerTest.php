@@ -1,6 +1,6 @@
 <?php
 
-namespace Phaser;
+namespace Nark;
 
 use PHPUnit\Framework\TestCase;
 use Equip\Structure\UnorderedList;

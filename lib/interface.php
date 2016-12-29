@@ -1,6 +1,6 @@
 <?php
 
-namespace Phaser;
+namespace Nark;
 
 use Equip\Structure\UnorderedList;
 use Exception;
@@ -9,17 +9,17 @@ use InvalidArgumentException;
 /**
  * Usage:
  *     // anonymous spy where all method invocations will return null
- *     $spy = Phaser\createAnonymousSpy();
+ *     $spy = Nark\createAnonymousSpy();
  *
  *     // or an anonymous spy with stubbed methods
- *     $spy = Phaser\createAnonymousSpy([
- *         'doFoo' => Phaser\returnsStaticValue('bar'),
- *         'doBaz' => Phaser\throwsException(new InvalidArgumentException())
+ *     $spy = Nark\createAnonymousSpy([
+ *         'doFoo' => Nark\returnsStaticValue('bar'),
+ *         'doBaz' => Nark\throwsException(new InvalidArgumentException())
  *     ]);
  *
  * @param  array  $methodNameToResponderMap a map of method names to callbacks which will handle
  *                                          any invocation made to the associated method name
- * @return SpyBase an instance of the base Phaser spy class which will behave according to the
+ * @return SpyBase an instance of the base Nark spy class which will behave according to the
  *                 given method name to responder map
  */
 function createAnonymousSpy(array $methodNameToResponderMap = []) {
@@ -35,18 +35,18 @@ function createAnonymousSpy(array $methodNameToResponderMap = []) {
  *
  * Usage:
  *     // create spy where all method invocations will return null
- *     $spy = Phaser\createSpyInstanceOf('\Foo\Bar');
+ *     $spy = Nark\createSpyInstanceOf('\Foo\Bar');
  *
  *     // or a spy with stubbed methods
- *     $spy = Phaser\createSpyInstanceOf('\Foo\Bar', [
- *         'doFoo' => Phaser\returnsStaticValue('bar'),
- *         'doBaz' => Phaser\throwsException(new InvalidArgumentException())
+ *     $spy = Nark\createSpyInstanceOf('\Foo\Bar', [
+ *         'doFoo' => Nark\returnsStaticValue('bar'),
+ *         'doBaz' => Nark\throwsException(new InvalidArgumentException())
  *     ]);
  *
  * @param  string  $type                     the name of the existing class or interface to spy on
  * @param  array   $methodNameToResponderMap a map of method names to callbacks which will handle
  *                                           any invocation made to the associated method name
- * @return mixed an instance of the base Phaser spy class which will extend the given class or
+ * @return mixed an instance of the base Nark spy class which will extend the given class or
  *               implement the given behave according to the given method name to responder map
  */
 function createSpyInstanceOf($type, array $methodNameToResponderMap = []) {
@@ -67,7 +67,7 @@ function createSpyInstanceOf($type, array $methodNameToResponderMap = []) {
  * Usage:
  *     // assert an invocation of 'anotherMethodName' was made with args ($arg1, $arg2) at some point
  *     // after an invocation with any args was made to 'methodName'
- *     assert( Phaser\occurredChronologically(
+ *     assert( Nark\occurredChronologically(
  *         $spyInstance->reflector()->methodName,
  *         $spyInstance->reflector()->anotherMethodName($arg1, $arg2)
  *     ) );
@@ -89,7 +89,7 @@ function occurredChronologically(...$sequenceOfMatchedInvocationRecordLists) {
     $sequenceLength = count($sequenceOfMatchedInvocationRecordLists);
     if ($sequenceLength === 0) {
         throw new InvalidArgumentException(
-            'Phaser\occurredChronologically(...$sequenceOfMatchedInvocationRecordLists) expects at least one spy invocation matcher result'
+            'Nark\occurredChronologically(...$sequenceOfMatchedInvocationRecordLists) expects at least one spy invocation matcher result'
         );
     }
 
@@ -139,8 +139,8 @@ function occurredChronologically(...$sequenceOfMatchedInvocationRecordLists) {
  *
  * Usage:
  *     // create anonymous spy with a 'doFoo' method stub which always returns 'bar'
- *     $spy = Phaser\createSpy([
- *         'doFoo' => Phaser\returnsStaticValue('bar')
+ *     $spy = Nark\createSpy([
+ *         'doFoo' => Nark\returnsStaticValue('bar')
  *     ]);
  *
  * @param  mixed $staticValueToReturn the value to return each time the returned callback is invoked
@@ -160,8 +160,8 @@ function returnsStaticValue($staticValueToReturn) {
  * Usage:
  *     // create anonymous spy with a 'doFoo' method stub which returns 'bar' on first invocation, then
  *     // 'baz' on the second invocation, then null on any further invocations
- *     $spy = Phaser\createSpy([
- *         'doFoo' => Phaser\returnsInSequence('bar', 'baz')
+ *     $spy = Nark\createSpy([
+ *         'doFoo' => Nark\returnsInSequence('bar', 'baz')
  *     ]);
  *
  * @param  array $sequenceOfValuesToReturn the sequence of returnables to return from sequential
@@ -176,8 +176,8 @@ function returnsInSequence(...$sequenceOfValuesToReturn) {
 /**
  * Usage:
  *     // create anonymous spy with a 'doFoo' method stub which throws an InvalidArgumentException
- *     $spy = Phaser\createSpy([
- *         'doFoo' => Phaser\throwsException(new InvalidArgumentException())
+ *     $spy = Nark\createSpy([
+ *         'doFoo' => Nark\throwsException(new InvalidArgumentException())
  *     ]);
  *
  * @param  \Exception $exception the exception to throw each time the returned callback is invoked
@@ -190,7 +190,7 @@ function throwsException(Exception $exception) {
 }
 
 /**
- * Function used to wrap functions given using the Phaser\returnsInSequence(...) stub setup method.
+ * Function used to wrap functions given using the Nark\returnsInSequence(...) stub setup method.
  * This is needed because we have to distinguish callables/functions which we want returned raw with
  * those we want to actually be executed to determine the return value.
  *
@@ -198,10 +198,10 @@ function throwsException(Exception $exception) {
  *     // create anonymous spy with a 'doFoo' method stub which returns 10 on the first invocation,
  *     // then uses a given callable to compute the return value for the second invocation, then
  *     // returns null on any further invocations
- *     $spy = Phaser\createSpy([
- *         'doFoo' => Phaser\returnsInSequence(
+ *     $spy = Nark\createSpy([
+ *         'doFoo' => Nark\returnsInSequence(
  *             10,
- *             Phaser\valueReturnedBy(function(...$args) { return count($args); })
+ *             Nark\valueReturnedBy(function(...$args) { return count($args); })
 *          )
  *     ]);
  *

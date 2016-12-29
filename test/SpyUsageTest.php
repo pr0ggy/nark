@@ -1,16 +1,16 @@
 <?php
 
-namespace Phaser\Fixtures;
+namespace Nark\Fixtures;
 
 use PHPUnit\Framework\TestCase;
-use Phaser;
+use Nark;
 
 class SpyUsageTest extends TestCase
 {
     public function testAnonymousSpy()
     {
-        $spy = Phaser\createAnonymousSpy([
-            'doFoo' => Phaser\returnsStaticValue('foobar')
+        $spy = Nark\createAnonymousSpy([
+            'doFoo' => Nark\returnsStaticValue('foobar')
         ]);
 
         $this->assertEquals('foobar', $spy->doFoo(),
@@ -34,11 +34,11 @@ class SpyUsageTest extends TestCase
 
     public function testInterfaceSpy()
     {
-        $spy = Phaser\createSpyInstanceOf('\Phaser\Fixtures\FooInterface', [
-            'doFoo' => Phaser\returnsStaticValue('foobar')
+        $spy = Nark\createSpyInstanceOf('\Nark\Fixtures\FooInterface', [
+            'doFoo' => Nark\returnsStaticValue('foobar')
         ]);
 
-        $testTypeHintAcceptance = function (\Phaser\Fixtures\FooInterface $instance) {};
+        $testTypeHintAcceptance = function (\Nark\Fixtures\FooInterface $instance) {};
         $testTypeHintAcceptance($spy);
 
         $this->assertEquals('foobar', $spy->doFoo(),
@@ -62,13 +62,13 @@ class SpyUsageTest extends TestCase
 
     public function testAbstractClassSpy()
     {
-        $spy = Phaser\createSpyInstanceOf('\Phaser\Fixtures\FooAbstractClass', [
-            'doFoo' => Phaser\returnsStaticValue('foobar')
+        $spy = Nark\createSpyInstanceOf('\Nark\Fixtures\FooAbstractClass', [
+            'doFoo' => Nark\returnsStaticValue('foobar')
         ]);
 
-        $testTypeHintAcceptance = function (\Phaser\Fixtures\FooAbstractClass $instance) {};
+        $testTypeHintAcceptance = function (\Nark\Fixtures\FooAbstractClass $instance) {};
         $testTypeHintAcceptance($spy);
-        $testTypeHintAcceptance = function (\Phaser\Fixtures\FooInterface $instance) {};
+        $testTypeHintAcceptance = function (\Nark\Fixtures\FooInterface $instance) {};
         $testTypeHintAcceptance($spy);
 
         $this->assertEquals('foobar', $spy->doFoo(),
@@ -92,15 +92,15 @@ class SpyUsageTest extends TestCase
 
     public function testConcreteClassSpy()
     {
-        $spy = Phaser\createSpyInstanceOf('\Phaser\Fixtures\FooClass', [
-            'doFoo' => Phaser\returnsStaticValue('foobar')
+        $spy = Nark\createSpyInstanceOf('\Nark\Fixtures\FooClass', [
+            'doFoo' => Nark\returnsStaticValue('foobar')
         ]);
 
-        $testTypeHintAcceptance = function (\Phaser\Fixtures\FooAbstractClass $instance) {};
+        $testTypeHintAcceptance = function (\Nark\Fixtures\FooAbstractClass $instance) {};
         $testTypeHintAcceptance($spy);
-        $testTypeHintAcceptance = function (\Phaser\Fixtures\FooInterface $instance) {};
+        $testTypeHintAcceptance = function (\Nark\Fixtures\FooInterface $instance) {};
         $testTypeHintAcceptance($spy);
-        $testTypeHintAcceptance = function (\Phaser\Fixtures\FooClass $instance) {};
+        $testTypeHintAcceptance = function (\Nark\Fixtures\FooClass $instance) {};
         $testTypeHintAcceptance($spy);
 
         $this->assertEquals('foobar', $spy->doFoo(),

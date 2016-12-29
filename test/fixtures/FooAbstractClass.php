@@ -1,6 +1,6 @@
 <?php
 
-namespace Phaser\Fixtures;
+namespace Nark\Fixtures;
 
 abstract class FooAbstractClass implements FooInterface {
     public static function doStaticFoo(array $bars = []) {

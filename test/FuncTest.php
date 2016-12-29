@@ -1,13 +1,13 @@
 <?php
 
-namespace Phaser;
+namespace Nark;
 
 use PHPUnit\Framework\TestCase;
 use Equip\Structure\Dictionary;
 use Equip\Structure\UnorderedList;
 use Hamcrest;
 
-class PhaserFuncTest extends TestCase
+class FuncTest extends TestCase
 {
     /**
      * @test

@@ -1,13 +1,13 @@
 <?php
 
-namespace Phaser;
+namespace Nark;
 
 use InvalidArgumentException;
 
 /**
  * Simple wrapper for a callable
  *
- * @package Phaser
+ * @package Nark
  */
 class WrappedCallable
 {

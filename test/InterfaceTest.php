@@ -1,12 +1,12 @@
 <?php
 
-namespace Phaser;
+namespace Nark;
 
 use PHPUnit\Framework\TestCase;
 use Equip\Structure\UnorderedList;
 use InvalidArgumentException;
 
-class PhaserInterfaceTest extends TestCase
+class NarkInterfaceTest extends TestCase
 {
     /**
      * @test

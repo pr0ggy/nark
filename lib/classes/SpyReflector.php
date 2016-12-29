@@ -1,13 +1,13 @@
 <?php
 
-namespace Phaser;
+namespace Nark;
 
 use Equip\Structure\Dictionary;
 use Equip\Structure\UnorderedList;
 
 /**
  * A SpyReflector is designed to be held within a spy instance and used to register method invocations.
- * Registering on the reflector instance instead of directly on the spy instance itself allows for Phaser's
+ * Registering on the reflector instance instead of directly on the spy instance itself allows for Nark's
  * unique way of querying spy instances for invocations made against them.
  */
 class SpyReflector
@@ -73,7 +73,7 @@ class SpyReflector
      * @param  string $methodName the method name of the invocation to add to create the new
      *                            _SpyReflector instance
      * @param  array  $args       the args given in the invocation to add
-     * @return Phaser\Spy\_SpyReflector a new _SpyReflector instance loaded with all existing data,
+     * @return Nark\Spy\_SpyReflector a new _SpyReflector instance loaded with all existing data,
      *                                  plus the new data given
      */
     public function withAddedInvocationRecord($methodName, Dictionary $invocationRecordToAdd) {
