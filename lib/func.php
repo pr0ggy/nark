@@ -62,8 +62,8 @@ function invocationsMatch(Dictionary $invocationA, Dictionary $invocationB) {
     };
 
     foreach ($invocationA['args'] as $index => $arg) {
-        $matchingInvocationBArg = $invocationB['args'][$index];
-        if ($argMismatch($arg, $matchingInvocationBArg)) {
+        $pairedInvocationBArg = $invocationB['args'][$index];
+        if ($argMismatch($arg, $pairedInvocationBArg)) {
             return false;
         }
     }
