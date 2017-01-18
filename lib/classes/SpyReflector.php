@@ -13,14 +13,21 @@ use Equip\Structure\UnorderedList;
 class SpyReflector
 {
     private $methodNameToInvocationRecordsMap;
+    private $lastRecordedInvocationRecord;
 
     /**
      * @param Dictionary|null $methodNameToInvocationRecordsMap initial map of method names to
-     *                                                            recorded invocations
+     *                                                          recorded invocations
+     * @param Dictionary|null $lastRecordedInvocationRecord     the invocation record representing the
+     *                                                          most recent invocation made on the spy
+     *                                                          which owns this reflector instance
      */
-    public function __construct(Dictionary $methodNameToInvocationRecordsMap = null)
-    {
+    public function __construct(
+        Dictionary $methodNameToInvocationRecordsMap = null,
+        Dictionary $lastRecordedInvocationRecord = null
+    ) {
         $this->methodNameToInvocationRecordsMap = ($methodNameToInvocationRecordsMap ?: new Dictionary());
+        $this->lastRecordedInvocationRecord = $lastRecordedInvocationRecord;
     }
 
     /**
@@ -70,17 +77,22 @@ class SpyReflector
      * Mutative update method which returns a new _SpyReflector instance containing this instance's
      * invocation map, plus the invocation data given
      *
-     * @param  string $methodName the method name of the invocation to add to create the new
-     *                            _SpyReflector instance
-     * @param  array  $args       the args given in the invocation to add
-     * @return Nark\Spy\_SpyReflector a new _SpyReflector instance loaded with all existing data,
+     * @param  string $methodName              the method name of the invocation to add to create
+     *                                         the new _SpyReflector instance
+     * @param  Dictionary $newInvocationRecord the new invocation record to add
+     * @return _SpyReflector a new _SpyReflector instance loaded with all existing data,
      *                                  plus the new data given
      */
-    public function withAddedInvocationRecord($methodName, Dictionary $invocationRecordToAdd) {
+    public function withAddedInvocationRecord($methodName, Dictionary $newInvocationRecord) {
         $recordedInvocationsOfGivenMethod =
             isset($this->methodNameToInvocationRecordsMap[$methodName])
                 ? $this->methodNameToInvocationRecordsMap[$methodName]
                 : new UnorderedList();
+
+        $invocationRecordToAdd = $newInvocationRecord->withValue(
+            'previouslyRecordedInvocationRecord',
+            $this->lastRecordedInvocationRecord
+        );
 
         return new static(
             $this->methodNameToInvocationRecordsMap->withValue(
@@ -88,7 +100,8 @@ class SpyReflector
                 $recordedInvocationsOfGivenMethod->withValue(
                     $invocationRecordToAdd
                 )
-            )
+            ),
+            $invocationRecordToAdd
         );
     }
 }

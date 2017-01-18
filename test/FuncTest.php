@@ -33,7 +33,8 @@ class FuncTest extends TestCase
     /**
      * @test
      */
-    public function createInvocationRecord_returnsAnImmutableMapRepresentingTheInvocationDataWithATimestamp() {
+    public function createInvocationRecord_returnsAnImmutableMapRepresentingTheInvocationDataWithATimestamp()
+    {
         $assertInvocationCreation = function ($methodName, array $args, $scenarioDescription) {
             $invocationTimestamp = microtime(true);
 
@@ -74,8 +75,8 @@ class FuncTest extends TestCase
         'Failed to recognize matching invocations when both had args');
         //---------------------------------------------------------------------
         $this->assertEquals(false, invocationsMatch(
-            createInvocation('doFoo', [5]),
-            createInvocation('doFoo', [10])
+            createInvocation('doFoo', [0]),
+            createInvocation('doFoo', [false])
         ),
         'Failed to recognize mismatched invocations when both had args');
         //---------------------------------------------------------------------
