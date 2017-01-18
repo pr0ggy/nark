@@ -133,6 +133,25 @@ function occurredChronologically(...$sequenceOfMatchedInvocationRecordLists) {
     return true;
 }
 
+/**
+ * Similar to occurredChronologically, returns whether or not a path can be traced vertically
+ * through the list of invocation lists which connects a series of invocations which occurred in
+ * sequence (one immediately after the other with no other method calls in between).
+ *
+ * Usage:
+ *     // assert an invocation of 'anotherMethodName' was made with args ($arg1, $arg2) immediately
+ *     // after an invocation with any args was made to 'methodName'
+ *     assert( Nark\occurredSequentially(
+ *         $spyInstance->reflector()->methodName,
+ *         $spyInstance->reflector()->anotherMethodName($arg1, $arg2)
+ *     ) );
+ *
+ * @param  array $sequenceOfMatchedInvocationRecordLists the list of invocation lists in which to check for
+ *                                             a sequential invocation path
+ * @return boolean true if the given set of method calls occurred sequentially, false if otherwise
+ *
+ * @throws \InvalidArgumentException if no invocation lists were given
+ */
 function occurredSequentially(...$sequenceOfMatchedInvocationRecordLists) {
     // expecting at least 1 matched invocation list
     $sequenceLength = count($sequenceOfMatchedInvocationRecordLists);
