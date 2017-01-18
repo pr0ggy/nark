@@ -133,6 +133,60 @@ function occurredChronologically(...$sequenceOfMatchedInvocationRecordLists) {
     return true;
 }
 
+function occurredSequentially(...$sequenceOfMatchedInvocationRecordLists) {
+    // expecting at least 1 matched invocation list
+    $sequenceLength = count($sequenceOfMatchedInvocationRecordLists);
+    if ($sequenceLength === 0) {
+        throw new InvalidArgumentException(
+            'Nark\occurredInSequence(...$sequenceOfMatchedInvocationRecordLists) expects at least one spy invocation matcher result'
+        );
+    }
+
+    /*
+     * Because each invocation record stores the previously-recorded record, we need to loop across
+     * the invocation record lists in reverse.  The idea is that we need to trace an _unbroken_ path
+     * from the final invocation record in the final list up to the first invocation in the first
+     * list by traversing through the records, following the previously-recorded invocation record
+     * of the current invocation record.
+     */
+    for ($i = ($sequenceLength - 1); $i >= 0; --$i) {
+        $thisInvocationRecordList = $sequenceOfMatchedInvocationRecordLists[$i];
+        $previouslySpecifiedInvocationRecordListExists = ($i > 0);
+        $thePreviousInvocationRecordList = $previouslySpecifiedInvocationRecordListExists
+            ? $sequenceOfMatchedInvocationRecordLists[($i - 1)]
+            : null;
+
+        $recordCountInThisList = count($thisInvocationRecordList);
+        // if any matched invocation record lists contain no matching invocations, we know the
+        // specified invocations didn't occur in sequence
+        if ($recordCountInThisList === 0) {
+            return false;
+        }
+
+        for ($j = ($recordCountInThisList - 1); $j >= 0; --$j) {
+            $thisInvocationRecord = $thisInvocationRecordList[$j];
+            $sameMethodCalledBeforeThisInvocation = isset($thisInvocationRecord['previouslyRecordedInvocationRecord'])
+                                                    && $thisInvocationRecord['previouslyRecordedInvocationRecord']['invocation']['methodName'] === $thisInvocationRecord['invocation']['methodName'];
+            if ($sameMethodCalledBeforeThisInvocation) {
+                continue;
+            }
+
+            $previousInvocationIsInPreviousInvocationList = isset($thisInvocationRecord['previouslyRecordedInvocationRecord'])
+                                                            && $previouslySpecifiedInvocationRecordListExists
+                                                            && $thePreviousInvocationRecordList->hasValue($thisInvocationRecord['previouslyRecordedInvocationRecord']);
+            if ($previousInvocationIsInPreviousInvocationList) {
+                break;
+            }
+
+            if ($previouslySpecifiedInvocationRecordListExists) {
+                return false;
+            }
+        }
+    }
+
+    return true;
+}
+
 /**
  * Used in creating a spy instance with stubbed methods to indicate a method stub should always return
  * a given static value

@@ -105,8 +105,13 @@ class SpyReflectorTest extends TestCase
 
         $this->assertNotSame($initialReflector, $updatedOnceReflector);
         $this->assertEquals(1, count($updatedOnceReflector->doFoo));
+        $doFooInvocation1 = [
+            'invocation' => ['methodName' => 'doFoo', 'args' => [true, 10]],
+            'timestamp' => $invocation1Time,
+            'previouslyRecordedInvocationRecord' => null
+        ];
         $this->assertEquals($updatedOnceReflector->doFoo->toArray(), [
-            ['invocation' => ['methodName' => 'doFoo', 'args' => [true, 10]], 'timestamp' => $invocation1Time]
+            $doFooInvocation1
         ], 'invocation map not updated as expected');
 
         $invocation2Time = microtime(true);
@@ -120,9 +125,14 @@ class SpyReflectorTest extends TestCase
 
         $this->assertNotSame($updatedOnceReflector, $updatedTwiceReflector);
         $this->assertEquals(2, count($updatedTwiceReflector->doFoo));
+        $doFooInvocation2 = [
+            'invocation' => ['methodName' => 'doFoo', 'args' => [false, 5]],
+            'timestamp' => $invocation2Time,
+            'previouslyRecordedInvocationRecord' => $doFooInvocation1
+        ];
         $this->assertEquals($updatedTwiceReflector->doFoo->toArray(), [
-            ['invocation' => ['methodName' => 'doFoo', 'args' => [true, 10]], 'timestamp' => $invocation1Time],
-            ['invocation' => ['methodName' => 'doFoo', 'args' => [false, 5]], 'timestamp' => $invocation2Time]
+            $doFooInvocation1,
+            $doFooInvocation2
         ], 'invocation map not updated as expected');
 
         $invocation3Time = microtime(true);
@@ -137,8 +147,13 @@ class SpyReflectorTest extends TestCase
         $this->assertNotSame($updatedTwiceReflector, $updatedThriceReflector);
         $this->assertEquals(2, count($updatedThriceReflector->doFoo));
         $this->assertEquals(1, count($updatedThriceReflector->doBar));
+        $doBarInvocation1 = [
+            'invocation' => ['methodName' => 'doBar', 'args' => []],
+            'timestamp' => $invocation3Time,
+            'previouslyRecordedInvocationRecord' => $doFooInvocation2
+        ];
         $this->assertEquals($updatedThriceReflector->doBar->toArray(), [
-            ['invocation' => ['methodName' => 'doBar', 'args' => []], 'timestamp' => $invocation3Time]
+            $doBarInvocation1
         ], 'invocation map not updated as expected');
     }
 }
