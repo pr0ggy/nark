@@ -7,4 +7,8 @@ class FooClass extends FooAbstractClass {
     {
         return "{$bar} bizbaz";
     }
+
+    final public function doFoo2() {
+        return 'foo2';
+    }
 }

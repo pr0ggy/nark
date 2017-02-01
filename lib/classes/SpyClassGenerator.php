@@ -120,7 +120,12 @@ class SpyClassGenerator
         $methodName = $method->getName();
         if ($methodName === '__construct') {
             // spy class already has a constructor defined...ignore the constructor of the class we want to spy on
-            return;
+            return "// can't override constructor in generated spy class";
+        }
+
+        // can't override final methods
+        if ($method->isFinal()) {
+            return "// can't override final methods in generated spy class";
         }
 
         $methodSignatureParameters = [];
