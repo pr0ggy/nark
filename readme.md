@@ -91,6 +91,12 @@ Accepts any given number of invocation lists queried from a given spy reflector 
 
 ---
 
+### `occurredSequentially(...$sequenceOfMatchedInvocationRecordLists)`
+
+Similar to occurredChronologically, returns whether or not a path can be traced vertically through the list of invocation lists which connects a series of invocations which occurred in sequence (one immediately after the other with no other method calls in between).
+
+---
+
 ### `returnsStaticValue($staticValueToReturn)`
 
 Returns a method stub invocation handler that always returns the given static value, as it is given to this function.
