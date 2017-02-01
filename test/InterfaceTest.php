@@ -126,12 +126,13 @@ class NarkInterfaceTest extends TestCase
         // --------------------------------------------------------------------
         /*
          * TIME ---->
-         * doFoo | --X--
+         * doFoo | --X--X--X--
          */
-        $doFoo1 = $createInvocationRecord(createInvocation('doFoo', $someInvocationArgs));
+        $doFoo1 = $createInvocationRecord(createInvocation('doFoo', []));
+        $doFoo2 = $createInvocationRecord(createInvocation('doFoo', [true]))->withValue('previouslyRecordedInvocationRecord', $doFoo1);
         $assertSequenceCheckReturns(false, [
-            [$doFoo1],
-            [$doFoo1]   // doFoo was only invoked once, so checking to see if it was invoked twice should return false
+            [$doFoo2],
+            [$doFoo2]   // doFoo was only invoked once with TRUE, so checking to see if it was invoked twice with TRUE should return false
         ],
         'return true when given 2 matching lists of invocations when only 1 invocation made instead of false as expected');
         // --------------------------------------------------------------------

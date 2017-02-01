@@ -184,9 +184,8 @@ function occurredSequentially(...$sequenceOfMatchedInvocationRecordLists) {
 
         for ($j = ($recordCountInThisList - 1); $j >= 0; --$j) {
             $thisInvocationRecord = $thisInvocationRecordList[$j];
-            $sameMethodCalledBeforeThisInvocation = isset($thisInvocationRecord['previouslyRecordedInvocationRecord'])
-                                                    && $thisInvocationRecord['previouslyRecordedInvocationRecord']['invocation']['methodName'] === $thisInvocationRecord['invocation']['methodName'];
-            if ($sameMethodCalledBeforeThisInvocation) {
+            $previousInvocationRecordInSameList = (($j > 0) ? $thisInvocationRecordList[($j - 1)] : null);
+            if ($previousInvocationRecordInSameList && ($thisInvocationRecord['previouslyRecordedInvocationRecord'] === $previousInvocationRecordInSameList)) {
                 continue;
             }
 
