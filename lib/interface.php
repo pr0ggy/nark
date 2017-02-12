@@ -3,6 +3,7 @@
 namespace Nark;
 
 use Equip\Structure\UnorderedList;
+use Equip\Structure\Dictionary;
 use Exception;
 use InvalidArgumentException;
 
@@ -168,41 +169,46 @@ function occurredSequentially(...$sequenceOfMatchedInvocationRecordLists) {
      * list by traversing through the records, following the previously-recorded invocation record
      * of the current invocation record.
      */
-    for ($i = ($sequenceLength - 1); $i >= 0; --$i) {
-        $thisInvocationRecordList = $sequenceOfMatchedInvocationRecordLists[$i];
-        $previouslySpecifiedInvocationRecordListExists = ($i > 0);
-        $thePreviousInvocationRecordList = $previouslySpecifiedInvocationRecordListExists
-            ? $sequenceOfMatchedInvocationRecordLists[($i - 1)]
-            : null;
+    $recordIsPartOfUnbrokenChainUpInvocationLists = function (Dictionary $record, UnorderedList $invocationLists) use ( &$recordIsPartOfUnbrokenChainUpInvocationLists ) {
+        // if no other invocation lists to check, then the single record does constitute a chain
+        if (count($invocationLists) === 0) {
+            return true;
+        }
 
-        $recordCountInThisList = count($thisInvocationRecordList);
-        // if any matched invocation record lists contain no matching invocations, we know the
-        // specified invocations didn't occur in sequence
-        if ($recordCountInThisList === 0) {
+        // if there are other invocation lists to check, but the record has no previous invocation,
+        // we know the chain breaks
+        if (isset($record['previouslyRecordedInvocationRecord']) === false) {
             return false;
         }
 
-        for ($j = ($recordCountInThisList - 1); $j >= 0; --$j) {
-            $thisInvocationRecord = $thisInvocationRecordList[$j];
-            $previousInvocationRecordInSameList = (($j > 0) ? $thisInvocationRecordList[($j - 1)] : null);
-            if ($previousInvocationRecordInSameList && ($thisInvocationRecord['previouslyRecordedInvocationRecord'] === $previousInvocationRecordInSameList)) {
-                continue;
+        $thePreviousInvocationRecordList = $invocationLists[count($invocationLists) - 1];
+        if ($thePreviousInvocationRecordList->hasValue($record['previouslyRecordedInvocationRecord'])) {
+            $allPrecedingRecordListsExceptLast = [];
+            for ($i = 0; $i < (count($invocationLists) - 1); ++$i) {
+                $allPrecedingRecordListsExceptLast[] = $invocationLists[$i];
             }
+            $allPrecedingRecordListsExceptLast = new UnorderedList($allPrecedingRecordListsExceptLast);
 
-            $previousInvocationIsInPreviousInvocationList = isset($thisInvocationRecord['previouslyRecordedInvocationRecord'])
-                                                            && $previouslySpecifiedInvocationRecordListExists
-                                                            && $thePreviousInvocationRecordList->hasValue($thisInvocationRecord['previouslyRecordedInvocationRecord']);
-            if ($previousInvocationIsInPreviousInvocationList) {
-                break;
-            }
+            return $recordIsPartOfUnbrokenChainUpInvocationLists(
+                $record['previouslyRecordedInvocationRecord'],
+                $allPrecedingRecordListsExceptLast
+            );
+        }
 
-            if ($previouslySpecifiedInvocationRecordListExists) {
-                return false;
-            }
+        return false;
+    };
+
+    $finalInvocationRecordList = $sequenceOfMatchedInvocationRecordLists[$sequenceLength - 1];
+    $finalInvocationListRecordCount = count($finalInvocationRecordList);
+    $allOtherInvocationLists = new UnorderedList(array_slice($sequenceOfMatchedInvocationRecordLists, 0, -1));
+    for ($i = ($finalInvocationListRecordCount - 1); $i >= 0; --$i) {
+        $currentRecord = $finalInvocationRecordList[$i];
+        if ($recordIsPartOfUnbrokenChainUpInvocationLists($currentRecord, $allOtherInvocationLists)) {
+            return true;
         }
     }
 
-    return true;
+    return false;
 }
 
 /**
