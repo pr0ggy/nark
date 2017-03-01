@@ -7,5 +7,5 @@ abstract class FooAbstractClass implements FooInterface {
         return count($bars);
     }
 
-    abstract public function doFoo(FooInterface $foo = null, $bar = 'foobar', $biz = 5.5, $baz = false);
+    abstract public function doFoo(FooInterface $foo = null, $bar = 'foobar baz', $biz = 5.5, $baz = false);
 }
