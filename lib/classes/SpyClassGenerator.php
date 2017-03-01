@@ -160,7 +160,7 @@ class SpyClassGenerator
      */
     private static function getMethodSignatureDefaultArgumentInProperFormat($rawDefaultArgument)
     {
-        $defaultArgumentIsConstant = (is_array($rawDefaultArgument) === false && preg_match('/^[A-Z_]{3,}$/', $rawDefaultArgument));
+        $defaultArgumentIsConstant = (is_array($rawDefaultArgument) === false && defined($rawDefaultArgument));
         $defaultArgumentIsLiteral = in_array($rawDefaultArgument, [null, true, false], true);
 
         if (is_numeric($rawDefaultArgument) || $defaultArgumentIsConstant) {
