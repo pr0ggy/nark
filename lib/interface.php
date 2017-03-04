@@ -96,7 +96,7 @@ function occurredChronologically(...$sequenceOfMatchedInvocationRecordLists) {
 
     $findFirstInvocationOcurringAfter = function ($timestamp, $invocationRecordsToSearch) {
         foreach ($invocationRecordsToSearch as $potentialInvocation) {
-            if ((int) $potentialInvocation->getValue('timestamp') > (int) $timestamp) {
+            if ((float) $potentialInvocation->getValue('timestamp') > (float) $timestamp) {
                 return $potentialInvocation;
             }
         }
