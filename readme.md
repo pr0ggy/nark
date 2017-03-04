@@ -43,7 +43,7 @@ $spy = Nark\createSpyInstanceOf('\Foo\Bar', [
 ```
 
 ### Querying Spies
-Nark provides an extremely straightforward way of querying a test double about how it was utilized.  There are 2 queries available for a Nark spy instance:
+Nark provides an extremely straightforward way of querying a test double about how it was utilized.  There are 3 main queries available for a Nark spy instance:
 ```php
 $spy = Nark\createAnonymousSpy();
 
@@ -67,7 +67,16 @@ $this->assertTrue(Nark\occurredChronologically([
     $spyInvocations->doFoo('bar'),
     $spyInvocations->doFoo('baz')
 ]));
+
+// 3. Did a given set of invocations occur in strict sequence?
+$this->assertTrue(Nark\occurredSequentially([
+    $spyInvocations->doFoo('foo'),
+    $spyInvocations->doFoo('bar'),
+    $spyInvocations->doFoo('baz')
+]));
 ```
+
+See the API documentation below for methods which allow you to query how a spy instance was utilized.
 
 ## Nark API
 
