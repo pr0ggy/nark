@@ -53,11 +53,11 @@ class NarkInterfaceTest extends TestCase
                 createInvocationRecord(createInvocation('doFoo', $someInvocationArgs), ($timestamp+0.05))
             ],
             [
-                createInvocationRecord(createInvocation('doBar', $someInvocationArgs), ($timestamp+0.03))    // B, (T+300)
+                createInvocationRecord(createInvocation('doBar', $someInvocationArgs), ($timestamp+0.03))    // B, (T+0.03)
             ],
             [
                 createInvocationRecord(createInvocation('doBaz', $someInvocationArgs), $timestamp-0.5),
-                createInvocationRecord(createInvocation('doBaz', $someInvocationArgs), ($timestamp+0.35))    // C, (T+350)
+                createInvocationRecord(createInvocation('doBaz', $someInvocationArgs), ($timestamp+0.35))    // C, (T+0.35)
             ]
         ],
         'return false when a sequence does exist across the given invocation lists instead of true as expected');
@@ -72,7 +72,7 @@ class NarkInterfaceTest extends TestCase
             ],
             [
                 createInvocationRecord(createInvocation('doBaz', $someInvocationArgs), $timestamp-0.5),
-                createInvocationRecord(createInvocation('doBaz', $someInvocationArgs), ($timestamp+0.35))    // C, (T+350)
+                createInvocationRecord(createInvocation('doBaz', $someInvocationArgs), ($timestamp+0.35))    // C, (T+0.35)
             ]
         ],
         'return true when a sequence does NOT exist across the given invocation lists instead of false as expected');
