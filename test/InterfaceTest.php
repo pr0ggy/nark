@@ -43,21 +43,21 @@ class NarkInterfaceTest extends TestCase
         // --------------------------------------------------------------------
         $assertSequenceCheckReturns(true, [[
             createInvocationRecord(createInvocation('doFoo', $someInvocationArgs), $timestamp),
-            createInvocationRecord(createInvocation('doFoo', $someInvocationArgs), ($timestamp+100))
+            createInvocationRecord(createInvocation('doFoo', $someInvocationArgs), ($timestamp+0.1))
         ]],
         'return false when given a single list of invocations instead of true as expected');
         // --------------------------------------------------------------------
         $assertSequenceCheckReturns(true, [
             [
                 createInvocationRecord(createInvocation('doFoo', $someInvocationArgs), $timestamp),         // A, (T)
-                createInvocationRecord(createInvocation('doFoo', $someInvocationArgs), ($timestamp+100))
+                createInvocationRecord(createInvocation('doFoo', $someInvocationArgs), ($timestamp+0.05))
             ],
             [
-                createInvocationRecord(createInvocation('doBar', $someInvocationArgs), ($timestamp+300))    // B, (T+300)
+                createInvocationRecord(createInvocation('doBar', $someInvocationArgs), ($timestamp+0.03))    // B, (T+300)
             ],
             [
-                createInvocationRecord(createInvocation('doBaz', $someInvocationArgs), $timestamp-500),
-                createInvocationRecord(createInvocation('doBaz', $someInvocationArgs), ($timestamp+350))    // C, (T+350)
+                createInvocationRecord(createInvocation('doBaz', $someInvocationArgs), $timestamp-0.5),
+                createInvocationRecord(createInvocation('doBaz', $someInvocationArgs), ($timestamp+0.35))    // C, (T+350)
             ]
         ],
         'return false when a sequence does exist across the given invocation lists instead of true as expected');
@@ -65,14 +65,14 @@ class NarkInterfaceTest extends TestCase
         $assertSequenceCheckReturns(false, [
             [
                 createInvocationRecord(createInvocation('doFoo', $someInvocationArgs), $timestamp),         // A, (T)
-                createInvocationRecord(createInvocation('doFoo', $someInvocationArgs), ($timestamp+100))
+                createInvocationRecord(createInvocation('doFoo', $someInvocationArgs), ($timestamp+0.1))
             ],
             [
                 createInvocationRecord(createInvocation('doBar', $someInvocationArgs), ($timestamp-10))    // NOT IN SEQUENCE (T-10)
             ],
             [
-                createInvocationRecord(createInvocation('doBaz', $someInvocationArgs), $timestamp-500),
-                createInvocationRecord(createInvocation('doBaz', $someInvocationArgs), ($timestamp+350))    // C, (T+350)
+                createInvocationRecord(createInvocation('doBaz', $someInvocationArgs), $timestamp-0.5),
+                createInvocationRecord(createInvocation('doBaz', $someInvocationArgs), ($timestamp+0.35))    // C, (T+350)
             ]
         ],
         'return true when a sequence does NOT exist across the given invocation lists instead of false as expected');
