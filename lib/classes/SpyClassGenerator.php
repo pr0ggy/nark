@@ -123,6 +123,10 @@ class SpyClassGenerator
             return "// can't override constructor in generated spy class";
         }
 
+        if ($methodName === '__call') {
+            return "// __call magic method not carried over from base class to generated spy class";
+        }
+
         // can't override final methods
         if ($method->isFinal()) {
             return "// can't override final methods in generated spy class";
