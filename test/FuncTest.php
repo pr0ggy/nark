@@ -87,7 +87,7 @@ class FuncTest extends TestCase
         'Failed to recognize mismatched invocations when method names do not match');
         //---------------------------------------------------------------------
         $assertHamcrestMatching = function ($hamcrestMatcherFunc, $hamcrestMatcherArgs, $valueResultingInMatch, $valueResultingInMismatch) {
-            $fullyQualifiedMatcherFunc = "Hamcrest\Matchers::{$hamcrestMatcherFunc}";
+            $fullyQualifiedMatcherFunc = ['Hamcrest\Matchers', $hamcrestMatcherFunc];
             $this->assertEquals(true, invocationsMatch(
                 createInvocation('doFoo', [$valueResultingInMatch]),
                 createInvocation('doFoo', [$fullyQualifiedMatcherFunc(...$hamcrestMatcherArgs)])
