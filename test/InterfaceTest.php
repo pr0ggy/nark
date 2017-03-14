@@ -227,19 +227,25 @@ class NarkInterfaceTest extends TestCase
     {
         $errorMessage = 'the given static value was not returned as expected';
 
-        $this->assertEquals( null, (returnsStaticValue(null))(), $errorMessage );
+        $staticReturnValueCallback = returnsStaticValue(null);
+        $this->assertEquals( null, $staticReturnValueCallback(), $errorMessage );
         // --------------------------------------------------------------------
-        $this->assertEquals( false, (returnsStaticValue(false))(), $errorMessage );
+        $staticReturnValueCallback = returnsStaticValue(false);
+        $this->assertEquals( false, $staticReturnValueCallback(), $errorMessage );
         // --------------------------------------------------------------------
-        $this->assertEquals( 'foo', (returnsStaticValue('foo'))(), $errorMessage );
+        $staticReturnValueCallback = returnsStaticValue('foo');
+        $this->assertEquals( 'foo', $staticReturnValueCallback(), $errorMessage );
         // --------------------------------------------------------------------
-        $this->assertEquals( 'foo', (returnsStaticValue('foo'))('bar'), $errorMessage );
+        $staticReturnValueCallback = returnsStaticValue('foo');
+        $this->assertEquals( 'foo', $staticReturnValueCallback('bar'), $errorMessage );
         // --------------------------------------------------------------------
         $obj = new \stdClass();
-        $this->assertEquals( $obj, (returnsStaticValue($obj))(), $errorMessage );
+        $staticReturnValueCallback = returnsStaticValue($obj);
+        $this->assertEquals( $obj, $staticReturnValueCallback(), $errorMessage );
         // --------------------------------------------------------------------
         $callable = function () {};
-        $this->assertEquals( $callable, (returnsStaticValue($callable))(), $errorMessage );
+        $staticReturnValueCallback = returnsStaticValue($callable);
+        $this->assertEquals( $callable, $staticReturnValueCallback(), $errorMessage );
     }
 
     /**
@@ -249,6 +255,7 @@ class NarkInterfaceTest extends TestCase
     public function throwsException_createsCallableThatThrowsAGivenException()
     {
         $e = new InvalidArgumentException();
-        (throwsException($e))();
+        $throwingCallback = throwsException($e);
+        $throwingCallback();
     }
 }

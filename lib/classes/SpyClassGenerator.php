@@ -6,6 +6,7 @@ use Equip\Structure\UnorderedList;
 use InvalidArgumentException;
 use ReflectionClass;
 use ReflectionMethod;
+use ReflectionParameter;
 
 /**
  * Generates code for a spy double extending a given class or implementing a given interface
@@ -136,8 +137,10 @@ class SpyClassGenerator
         $methodParameterNames = [];
         foreach ($method->getParameters() as $parameter) {
             $methodParamType = '';
-            if ($parameter->hasType()) {
-                $methodParamType = ((string) $parameter->getType() === 'array' ? 'array' : "\\{$parameter->getType()}");
+            if ($parameter->isArray()) {
+                $methodParamType = 'array';
+            } else {
+                $methodParamType = self::resolveParameterType($parameter);
             }
             $methodParamName = "\${$parameter->getName()}";
             $methodParamDefaultValueString = $parameter->isDefaultValueAvailable()
@@ -153,6 +156,35 @@ class SpyClassGenerator
         $methodType = ($method->isStatic() ? 'static function' : 'function');
 
         return "    public {$methodType} {$methodName}({$methodSignatureParametersString}) { return \$this->__call('{$methodName}', func_get_args()); }";
+    }
+
+    /**
+     * Because it could be that reflection parameter ->getClass() will try to load an class that isnt included yet
+     * It could thrown an Exception, the way to find out what the class name is by parsing the reflection parameter
+     * God knows why they didn't add getClassName() on reflection parameter.
+     * http://stackoverflow.com/questions/4513867/php-reflection-get-method-parameter-type-as-string
+     *
+     * @param ReflectionParameter $reflectionParameter
+     * @return string|null
+     *
+     * @see  https://gist.github.com/Xeoncross/4723819
+     */
+    protected static function resolveParameterType(ReflectionParameter $reflectionParameter)
+    {
+        if ($reflectionParameter->isArray()) {
+            return null;
+        }
+        try {
+            // first try it on the normal way if the class is loaded then everything should go ok
+            if($reflectionParameter->getClass()) {
+                return '\\'.$reflectionParameter->getClass()->name;
+            }
+        // if the class isnt loaded it throws an exception
+        } catch (Exception $exception) {
+            // try to resolve it the ugly way by parsing the error message
+            $parts = explode(' ', $exception->getMessage(), 3);
+            return '\\'.$parts[1];
+        }
     }
 
     /**
