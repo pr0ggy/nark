@@ -7,6 +7,7 @@ use InvalidArgumentException;
 use ReflectionClass;
 use ReflectionMethod;
 use ReflectionParameter;
+use Exception;
 
 /**
  * Generates code for a spy double extending a given class or implementing a given interface
